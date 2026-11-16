@@ -57,7 +57,7 @@ h3{font-size:21px;letter-spacing:-.015em;line-height:1.2;font-weight:600}
 .hero{padding:96px 22px 0;text-align:center;overflow:hidden}
 .hero .small{margin-top:20px}
 .cards{position:relative;margin:84px auto 0;max-width:1180px;height:clamp(150px,24vw,330px)}
-.cards img{position:absolute;top:0;width:30%;border-radius:4.5%;box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.cards img{position:absolute;top:0;width:30%;border-radius:6.5%/11.2%;box-shadow:0 30px 60px rgba(0,0,0,.6);border-radius:6.5%/11.2%}
 .cards img:nth-child(1){left:0;z-index:1;--r:-5deg;--y:34px}
 .cards img:nth-child(2){left:17.5%;z-index:3;--r:-2.5deg;--y:14px}
 .cards img:nth-child(3){left:35%;z-index:5;--r:0deg;--y:0px}
@@ -214,7 +214,7 @@ footer .r{margin-left:auto}
 @media(prefers-reduced-motion:reduce){.slide *,.tapstage *{animation:none!important}.slide .knob{transform:translateX(calc(min(380px,84vw) - 76px))}.slide .s-a{opacity:0}.slide .s-b{opacity:1}.tapstage .ma{transform:translateX(-47px) rotate(-2deg)}.tapstage .mb{transform:translateX(47px) rotate(2deg)}}
 
 /* cards: tap one to bring it forward */
-.cards.live img{cursor:pointer;transition:left .9s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1),filter .7s,box-shadow .7s;outline:none}
+.cards.live img{cursor:pointer;transition:opacity .6s ease,left .9s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1),filter .7s,box-shadow .7s;outline:none}
 .cards.live img:not(.on){filter:brightness(.72)}
 .cards.live img.on{box-shadow:0 40px 90px rgba(41,151,255,.28),0 30px 60px rgba(0,0,0,.6)}
 .cards.live img:focus-visible{outline:2px solid #2997ff;outline-offset:6px}
@@ -230,6 +230,24 @@ footer .r{margin-left:auto}
 .cards.live img.on{box-shadow:0 40px 90px color-mix(in srgb,var(--ac) 45%,transparent),0 30px 60px rgba(0,0,0,.6)}
 .cards.live img:not(.on){filter:brightness(.8) saturate(.85)}
 .dots button.on{background:var(--ac)}
+
+/* what is coming */
+#next{border-bottom:1px solid #1d1d1f}
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-top:84px;text-align:left;position:relative}
+.road:before{content:"";position:absolute;left:0;right:0;top:7px;height:2px;background:#2c2c2e}
+.road:after{content:"";position:absolute;left:0;top:7px;height:2px;width:0;background:linear-gradient(90deg,#2997ff,#bf5af2);transition:width 2.4s cubic-bezier(.2,.7,.2,1) .3s}
+.road.in:after{width:100%}
+.road>div{position:relative;padding-top:38px}
+.road>div:before{content:"";position:absolute;left:0;top:0;width:16px;height:16px;border-radius:50%;background:#000;border:2px solid #48484a;transition:border-color .6s,background .6s;transition-delay:calc(var(--k)*.55s + .3s)}
+.road.in>div:before{border-color:#2997ff;background:#2997ff}
+.road h3{font-size:21px;font-weight:600;letter-spacing:-.02em}
+.road small{display:block;color:#2997ff;font-size:13px;margin-bottom:6px}
+.road ul{list-style:none;padding:0;margin:14px 0 0;color:var(--dim);font-size:15.5px;line-height:1.45}
+.road li{padding:5px 0}
+.later{margin:64px auto 0;max-width:720px;color:var(--dim);font-size:17px}
+.later b{color:#f5f5f7;font-weight:600}
+@media(max-width:860px){.road{grid-template-columns:1fr;gap:34px;margin-top:56px;padding-left:34px}.road:before,.road:after{left:7px;right:auto;top:0;bottom:0;width:2px;height:auto}.road:after{height:0;width:2px;transition:height 2.4s cubic-bezier(.2,.7,.2,1) .3s}.road.in:after{height:100%;width:2px}.road>div{padding-top:0}.road>div:before{left:-34px;top:4px}}
+@media(prefers-reduced-motion:reduce){.road:after{transition:none;width:100%}.road>div:before{transition:none;border-color:#2997ff;background:#2997ff}}
 </style>
 </head>
 <body>
@@ -242,6 +260,7 @@ footer .r{margin-left:auto}
     <a class="l" href="#rings">Rings</a>
     <a class="l" href="#tap">Tap to pay</a>
     <a class="l" href="#check">Contract check</a>
+    <a class="l" href="#next">Next</a>
     <a class="l" href="#beta">Beta</a>
     <a class="pill" href="#download">Download</a>
   </div>
@@ -258,11 +277,11 @@ footer .r{margin-left:auto}
   <p class="small">Free and open source. Test-network beta, not audited yet.</p>
   </div>
   <div class="cards" aria-label="The five coin cards in the wallet">
-    <img src="img/card-lyx.webp" alt="LOKYX card" width="732" height="410">
-    <img src="img/card-btc.webp" alt="Bitcoin card" width="732" height="410">
-    <img src="img/card-eth.webp" alt="Ethereum card" width="732" height="410">
-    <img src="img/card-sol.webp" alt="Solana card" width="732" height="410">
-    <img src="img/card-trx.webp" alt="Tron card" width="732" height="410">
+    <img src="img/card-lyx.webp" alt="LOKYX card" width="732" height="428">
+    <img src="img/card-btc.webp" alt="Bitcoin card" width="732" height="428">
+    <img src="img/card-eth.webp" alt="Ethereum card" width="732" height="428">
+    <img src="img/card-sol.webp" alt="Solana card" width="732" height="428">
+    <img src="img/card-trx.webp" alt="Tron card" width="732" height="428">
   </div>
   <div class="dots" id="dots" aria-label="Choose a card"></div>
   <p class="cards-note">Screenshots of the app running on test networks.</p>
@@ -412,6 +431,20 @@ footer .r{margin-left:auto}
   </div>
 </section>
 
+<section id="next">
+  <div class="wrap center">
+    <h2 class="sc">What comes next.</h2>
+    <p class="lede">The plan, in the order I'm building it.</p>
+    <div class="road rv">
+      <div style="--k:0"><small>Now</small><h3>Real-phone testing</h3><ul><li>Vault flow on Base and Arbitrum test networks</li><li>Solana and Tron sending</li><li>Backup file restore</li><li>Two watchtowers</li></ul></div>
+      <div style="--k:1"><small>Next</small><h3>WalletConnect</h3><ul><li>Connect to sites by QR or link</li><li>Every request goes through the contract check</li><li>A list of connected sites</li></ul></div>
+      <div style="--k:2"><small>Then</small><h3>Safer signing</h3><ul><li>Plain-English view of Permit and Seaport requests</li><li>A longer list of audited contracts</li><li>Cancel from a second phone</li></ul></div>
+      <div style="--k:3"><small>After that</small><h3>Review and mainnet</h3><ul><li>Independent security review</li><li>Closed beta</li><li>Mainnet starts on Base, with a low daily limit</li></ul></div>
+    </div>
+    <p class="later rv"><b>Later:</b> Bitcoin vault protection, Ledger support and an iPhone version. The full list is in the <a class="link" href="https://github.com/lokyx-community/lokyx-multichain-wallet/blob/main/ROADMAP.md">roadmap</a>.</p>
+  </div>
+</section>
+
 <section id="download">
   <div class="wrap center">
     <h2 class="sc">Get LOKYX Wallet.</h2>
@@ -476,7 +509,8 @@ footer .r{margin-left:auto}
     if(!cards)return;var cols=['#e8e8ed','#f7931a','#7b93ff','#9945ff','#ff3b30'],imgs=[].slice.call(cards.querySelectorAll('img')),dots=document.getElementById('dots'),sel=2,auto=null,names=['LOKYX','Bitcoin','Ethereum','Solana','Tron'];
     var btns=imgs.map(function(im,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label',names[i]||'Card '+(i+1));b.onclick=function(){go(i,true)};dots.appendChild(b);im.tabIndex=0;im.setAttribute('role','button');im.setAttribute('aria-label',(names[i]||'Card')+' card');im.onclick=function(){go(i,true)};im.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go(i,true)}else if(e.key==='ArrowRight'){go((sel+1)%5,true)}else if(e.key==='ArrowLeft'){go((sel+4)%5,true)}};return b});
     function lay(){var m=mobile.matches,c=m?21:35,st=m?11.5:17.5;
-      imgs.forEach(function(im,i){var o=((i-sel+7)%5)-2,a=Math.abs(o);
+      imgs.forEach(function(im,i){var o=((i-sel+7)%5)-2,a=Math.abs(o),jump=im._o!==undefined&&Math.abs(o-im._o)>2;im._o=o;
+        if(jump&&!reduce){im.style.transition='none';im.style.opacity=0;im.style.left=(c+o*st)+'%';void im.offsetWidth;im.style.transition='';requestAnimationFrame(function(){im.style.opacity=''});}
         im.style.left=(c+o*st)+'%';im.style.zIndex=5-a*2+(o<0?0:1);
         im.style.setProperty('--r',(o*2.6)+'deg');im.style.setProperty('--y',(a*(m?12:15)+(a>1?8:0))+'px');
         im.classList.toggle('on',o===0);if(o===0&&hero)hero.style.setProperty('--ac',cols[i]);btns[i].classList.toggle('on',o===0)})}
