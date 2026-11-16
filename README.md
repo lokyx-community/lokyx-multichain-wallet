@@ -2,7 +2,7 @@
 
 The phone wallet for LOKYX. Android and iPhone, built with Expo.
 
-**Testnet beta.** LYX, Bitcoin signet/testnet and Ethereum Sepolia only: test coins, no value.
+**Testnet beta.** Test coins only, no value. Not audited. Mainnets are switched off.
 Security notes: `docs/WALLET_SECURITY.md`.
 
 - Keys are made on the phone and kept in its secure storage, locked behind Face ID, a fingerprint or the
@@ -21,6 +21,9 @@ Security notes: `docs/WALLET_SECURITY.md`.
   (and QR codes) through a round window.
 - Send and receive LYX and tokens, see activity, save people you pay.
 - Several accounts from one set of 24 words.
+- **Solana and Tron** (devnet, Nile) and 10 Ethereum-style test networks, from the same words. One Activity list shows payments from every coin.
+- **Contract check:** before a website's contract call is approved, the app shows what it does, whether the contract and the spender have public source code, and whether it is on a short list of audited contracts. Unknown ones keep the approve slide locked until you tick that you read it.
+- **Backup file:** an encrypted file (scrypt + XChaCha20-Poly1305) you can save anywhere and restore by choosing it. A QR code is optional.
 - Time capsules: seal LYX and a note for yourself or someone else until a day you pick.
   Nobody can open it early, and the note is locked with time-based encryption (drand), so
   nobody can read it early either. Each capsule has its own ring, so you can hand it over by scanning.
@@ -33,7 +36,9 @@ Security notes: `docs/WALLET_SECURITY.md`.
 |---|---|---|
 | LOKYX | testnet (chain 77703) | transaction format v2 |
 | Bitcoin | signet (default), testnet | BIP84 `m/84'/1'/0'/0/i`, Esplora API |
-| Ethereum | Sepolia | `m/44'/60'/0'/0/i`, EIP-1559, ERC-20 |
+| Ethereum | Sepolia and 9 other test networks | `m/44'/60'/0'/0/i`, EIP-1559, ERC-20 |
+| Solana | devnet, testnet | SLIP-0010 `m/44'/501'/i'/0'` |
+| Tron | Nile, Shasta | `m/44'/195'/0'/0/i` |
 | Ethereum vault | Base Sepolia, Arbitrum Sepolia | Safe 1.4.1 + Allowance Module + Zodiac Delay 1.0.1 + Roles v1, no custom contracts; see `docs/ETH_VAULT.md` |
 
 Mainnet for Bitcoin and Ethereum is switched off and not selectable in this beta. The Ethereum vault is test-network only, and has a hard blocker before any mainnet (recovery option B, see `docs/ETH_VAULT.md`).
@@ -115,3 +120,11 @@ read too.
 
     npm test                                          # Reed-Solomon
     node --experimental-strip-types tools/ring-check.mts   # 160 distorted rings
+
+## Roadmap
+
+See `ROADMAP.md`.
+
+## Licence
+
+MIT. See `LICENSE`.
