@@ -3,7 +3,7 @@ on:
   workflow_dispatch: {}
   push:
     branches: [main, master]
-    paths-ignore: ['contracts/**', '.github/workflows/contracts.yml', 'site/**']
+    paths-ignore: ['contracts/**', '.github/workflows/contracts.yml', 'site/**', '.github/workflows/pages.yml']
 env:
   EXPO_PUBLIC_BUILD: ${{ github.sha }}
 jobs:
