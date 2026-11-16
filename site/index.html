@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOKYX Wallet</title>
+<meta name="description" content="An open-source Android wallet for Bitcoin, Ethereum, Solana, Tron and LOKYX, with a vault that puts a wait between a thief and your money. Test-network beta.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="img/mark.png">
+<meta property="og:title" content="LOKYX Wallet">
+<meta property="og:description" content="One wallet for five chains, with a wait between a thief and your money.">
+<meta property="og:image" content="img/home-top.webp">
+<style>
+:root{
+  --ink:#000; --graphite:#1d1d1f; --mist:#f5f5f7; --white:#fff;
+  --dim:#86868b; --dim-dark:#6e6e73; --blue:#2997ff; --blue-light:#0066cc; --line:#d2d2d7; --line-dark:#2c2c2e;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--ink);color:var(--white);line-height:1.47;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;height:48px;background:rgba(0,0,0,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav .in{max-width:1024px;margin:0 auto;height:100%;padding:0 22px;display:flex;align-items:center;gap:28px;font-size:13px}
+nav .brand{display:flex;align-items:center;gap:9px;font-weight:600;text-decoration:none;font-size:15px;letter-spacing:-.01em;margin-right:auto}
+nav .brand img{width:22px;height:22px;border-radius:6px}
+nav a.l{color:rgba(255,255,255,.8);text-decoration:none}
+nav a.l:hover{color:#fff}
+nav a.pill{background:var(--blue);color:#fff;padding:5px 13px;border-radius:980px;text-decoration:none;font-weight:500}
+@media(max-width:640px){nav a.l{display:none}}
+
+/* shared */
+section{padding:120px 22px}
+.wrap{max-width:1024px;margin:0 auto}
+.center{text-align:center}
+h1,h2,h3{letter-spacing:-.03em;font-weight:700;line-height:1.05}
+h1{font-size:clamp(52px,10vw,120px);letter-spacing:-.045em}
+h2{font-size:clamp(36px,6vw,72px)}
+h3{font-size:21px;letter-spacing:-.015em;line-height:1.2;font-weight:600}
+.lede{font-size:clamp(19px,2.4vw,28px);line-height:1.25;letter-spacing:-.012em;font-weight:500;color:var(--dim);max-width:760px;margin:22px auto 0}
+.light{background:var(--mist);color:var(--graphite)}
+.light .lede,.light .dim{color:var(--dim-dark)}
+.dim{color:var(--dim)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 26px;border-radius:980px;font-size:17px;font-weight:500;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+.btn.main{background:var(--blue);color:#fff}
+.btn.main:hover{background:#0a84ff}
+.btn.off{background:transparent;color:var(--dim);border:1px solid #3a3a3c;cursor:default}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.small{font-size:14px;color:var(--dim)}
+
+/* hero */
+.hero{padding:96px 22px 0;text-align:center;overflow:hidden}
+.hero .small{margin-top:20px}
+.cards{position:relative;margin:84px auto 0;max-width:1180px;height:clamp(150px,24vw,330px)}
+.cards img{position:absolute;top:0;width:30%;border-radius:4.5%;box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.cards img:nth-child(1){left:0;z-index:1;--r:-5deg;--y:34px}
+.cards img:nth-child(2){left:17.5%;z-index:3;--r:-2.5deg;--y:14px}
+.cards img:nth-child(3){left:35%;z-index:5;--r:0deg;--y:0px}
+.cards img:nth-child(4){left:52.5%;z-index:3;--r:2.5deg;--y:14px}
+.cards img:nth-child(5){left:70%;z-index:1;--r:5deg;--y:34px}
+.cards img{transform:translateY(var(--y)) rotate(var(--r))}
+.fan .cards img{animation:fan 1.1s cubic-bezier(.2,.7,.2,1) both}
+.fan .cards img:nth-child(3){animation-delay:0s}
+.fan .cards img:nth-child(2),.fan .cards img:nth-child(4){animation-delay:.08s}
+.fan .cards img:nth-child(1),.fan .cards img:nth-child(5){animation-delay:.16s}
+@keyframes fan{from{transform:translateX(calc((33% - var(--x,0px))*0)) translateY(60px) rotate(0) scale(.94);opacity:0}to{transform:translateY(var(--y)) rotate(var(--r));opacity:1}}
+.cards-note{padding:64px 0 0;font-size:14px;color:var(--dim)}
+.hero::after{content:"";display:block;height:0}
+
+/* phones */
+.phones{display:flex;gap:clamp(18px,4vw,56px);justify-content:center;margin-top:72px;flex-wrap:wrap}
+.phone{width:min(300px,78vw);border:9px solid #1d1d1f;border-radius:46px;overflow:hidden;background:#000;box-shadow:0 40px 80px rgba(0,0,0,.28)}
+.light .phone{box-shadow:0 40px 80px rgba(0,0,0,.18)}
+.phone img{width:100%}
+.phone.up{margin-top:0}
+.cap{margin-top:18px;font-size:15px;color:var(--dim-dark);text-align:center;max-width:300px}
+.dark .cap{color:var(--dim)}
+.col{display:flex;flex-direction:column;align-items:center}
+
+/* vault */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:80px;text-align:left}
+.three p{color:var(--dim);margin-top:12px;font-size:17px;line-height:1.47}
+.vault-row{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;margin-top:96px}
+.vault-row .col{justify-self:center}
+.big{font-size:clamp(24px,3.4vw,40px);letter-spacing:-.025em;font-weight:600;line-height:1.12}
+.big+p{margin-top:18px;color:var(--dim);font-size:19px;line-height:1.4}
+.light .big+p{color:var(--dim-dark)}
+
+/* check */
+.check{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-top:72px}
+.check img.sheet{border-radius:22px;box-shadow:0 30px 70px rgba(0,0,0,.22);width:100%;max-width:440px;margin:0 auto}
+.check ul{list-style:none;margin-top:28px;display:grid;gap:18px}
+.check li{padding-left:26px;position:relative;font-size:18px;line-height:1.4}
+.check li::before{content:"";position:absolute;left:0;top:.52em;width:10px;height:10px;border-radius:50%;background:var(--graphite)}
+.check li.red::before{background:#ff453a}.check li.amber::before{background:#ff9f0a}.check li.green::before{background:#30d158}
+.fine{margin-top:26px;font-size:15px;color:var(--dim-dark)}
+
+/* features */
+.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-top:80px;text-align:left}
+.feat p{color:var(--dim);margin-top:10px;font-size:16px}
+
+/* beta */
+.limits{max-width:760px;margin:56px auto 0;text-align:left;display:grid;gap:0}
+.limits div{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:22px 0;border-top:1px solid var(--line)}
+.limits div:last-child{border-bottom:1px solid var(--line)}
+.limits b{font-weight:600}
+.limits span{color:var(--dim-dark)}
+.link{color:var(--blue-light);text-decoration:none}
+.link:hover{text-decoration:underline}
+
+/* download */
+.steps{max-width:560px;margin:52px auto 0;text-align:left;display:grid;gap:18px;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;padding-left:46px;position:relative;font-size:18px;line-height:1.4;color:#d1d1d6}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;border:1px solid #48484a;display:grid;place-items:center;font-size:14px;color:var(--dim)}
+.soon{display:inline-flex;align-items:center;gap:8px}
+.tag{font-size:12px;font-weight:600;background:#2c2c2e;color:#d1d1d6;padding:3px 9px;border-radius:980px}
+
+footer{background:var(--ink);padding:36px 22px 56px;border-top:1px solid var(--line-dark);font-size:13px;color:var(--dim)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center}
+footer a{text-decoration:none;color:#a1a1a6}footer a:hover{color:#fff}
+footer .r{margin-left:auto}
+
+@media(max-width:860px){
+  section{padding:84px 22px}
+  .three,.feat{grid-template-columns:1fr;gap:34px;margin-top:56px}
+  .vault-row,.check{grid-template-columns:1fr;gap:48px;margin-top:56px}
+  .limits div{grid-template-columns:1fr;gap:6px}
+  footer .r{margin-left:0}
+  .cards{height:44vw;margin-top:60px}
+  .cards img{width:44%}
+  .cards img:nth-child(1){left:-6%}.cards img:nth-child(2){left:8%}.cards img:nth-child(3){left:28%}.cards img:nth-child(4){left:46%}.cards img:nth-child(5){left:62%}
+  .cards-note{padding-top:26px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fan .cards img{animation:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="in">
+    <a class="brand" href="#top"><img src="img/mark.png" alt="" width="22" height="22">LOKYX Wallet</a>
+    <a class="l" href="#vault">Vault</a>
+    <a class="l" href="#check">Contract check</a>
+    <a class="l" href="#beta">Beta</a>
+    <a class="pill" href="#download">Download</a>
+  </div>
+</nav>
+
+<header class="hero fan" id="top">
+  <h1>Hard to lose.</h1>
+  <p class="lede">One wallet for Bitcoin, Ethereum, Solana, Tron and LOKYX. With a wait between a thief and your money.</p>
+  <div class="actions">
+    <a class="btn main" href="https://github.com/lokyx-community/lokyx-multichain-wallet/releases/latest/download/lokyx-wallet.apk">Download for Android</a>
+    <span class="btn off" aria-disabled="true">iPhone: coming soon</span>
+  </div>
+  <p class="small">Free and open source. Test-network beta, not audited yet.</p>
+  <div class="cards" aria-label="The five coin cards in the wallet">
+    <img src="img/card-lyx.webp" alt="LOKYX card" width="732" height="410">
+    <img src="img/card-btc.webp" alt="Bitcoin card" width="732" height="410">
+    <img src="img/card-eth.webp" alt="Ethereum card" width="732" height="410">
+    <img src="img/card-sol.webp" alt="Solana card" width="732" height="410">
+    <img src="img/card-trx.webp" alt="Tron card" width="732" height="410">
+  </div>
+  <p class="cards-note">Screenshots of the app running on test networks.</p>
+</header>
+
+<section class="light" id="chains">
+  <div class="wrap center">
+    <h2>One phrase.<br>Five chains.</h2>
+    <p class="lede">Bitcoin, Ethereum with ten test networks, Solana, Tron and LOKYX all come from the same 24 words. One Activity list shows every payment, whatever the coin.</p>
+    <div class="phones">
+      <div class="col"><div class="phone"><img src="img/coin-sol.webp" alt="The Solana screen with its card, tokens and recent payments" width="720" height="1560" loading="lazy"></div><p class="cap">Solana, with its tokens and recent payments.</p></div>
+      <div class="col"><div class="phone"><img src="img/coin-trx.webp" alt="The Tron screen with its card, Tether balance and recent payment" width="720" height="1560" loading="lazy"></div><p class="cap">Tron, with USDT.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="vault">
+  <div class="wrap center">
+    <h2>A daily limit.<br>A wait on the rest.</h2>
+    <p class="lede">The Ethereum vault is built from Safe's audited contracts. No new contracts to trust.</p>
+    <div class="three">
+      <div><h3>Spend what you need.</h3><p>Payments up to your daily limit go through straight away.</p></div>
+      <div><h3>Wait on anything bigger.</h3><p>Larger withdrawals sit in a queue. You can cancel them from your phone before they run.</p></div>
+      <div><h3>A key kept on paper.</h3><p>A separate recovery key can cancel or move money, but only to your own safe address.</p></div>
+    </div>
+    <div class="vault-row">
+      <div style="text-align:left">
+        <p class="big">New addresses wait 24 hours.</p>
+        <p>You can receive from a new address right away. Paying it needs a day on your trusted list, and you type the last characters of the address back. If someone else is moving your money, that gives you time to notice.</p>
+      </div>
+      <div class="col"><div class="phone"><img src="img/send-sol.webp" alt="A send screen warning that this address has not been paid before" width="720" height="1560" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="light" id="check">
+  <div class="wrap">
+    <div class="center">
+      <h2>It reads the contract<br>before you sign.</h2>
+      <p class="lede">When a website asks you to approve something, the wallet stops and says what it is.</p>
+    </div>
+    <div class="check">
+      <img class="sheet" src="img/check-stop.webp" alt="The wallet warning: Stop and read this first. The approval is unlimited." width="796" height="950" loading="lazy">
+      <div>
+        <p class="big">What it tells you.</p>
+        <ul>
+          <li>What the call does, in plain words. Unlimited approvals and "approve all" are named.</li>
+          <li>Whether the contract, and the address getting the right to spend, have public source code.</li>
+          <li>Whether the contract is on a short list of audited ones. If not, it says so.</li>
+          <li>Unknown contracts keep the approve button locked until you tick that you read it. Approving then asks for your fingerprint, face or passcode.</li>
+        </ul>
+        <p class="fine">Public source code means anyone can read it. It does not mean it is safe. If you are not sure, reject.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap center">
+    <h2>Yours, and only yours.</h2>
+    <div class="feat">
+      <div><h3>Keys stay on the phone.</h3><p>They are made on the device and kept in its secure storage, behind your face, fingerprint or passcode.</p></div>
+      <div><h3>A backup you can file away.</h3><p>An encrypted backup file you can save anywhere. Pick it later to restore. A QR code is optional.</p></div>
+      <div><h3>Look-alike addresses.</h3><p>Addresses that start and end like one you know are flagged before you pay.</p></div>
+      <div><h3>Open source.</h3><p>The code is public under the MIT licence. Read it, test it, copy it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="light" id="beta">
+  <div class="wrap center">
+    <h2>This is a beta.</h2>
+    <p class="lede">Everything runs on test networks. The coins have no value.</p>
+    <div class="limits">
+      <div><b>Test networks only</b><span>Real-money networks are switched off in this version.</span></div>
+      <div><b>Not audited</b><span>An independent review is planned before any real money. Until then, treat it as a test.</span></div>
+      <div><b>Android first</b><span>The iPhone version comes later.</span></div>
+      <div><b>What is next</b><span>WalletConnect, safer signing, real-phone testing and a security review. See the <a class="link" href="https://github.com/lokyx-community/lokyx-multichain-wallet/blob/main/ROADMAP.md">roadmap</a>.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap center">
+    <h2>Get LOKYX Wallet.</h2>
+    <p class="lede">An Android app file. About a minute to install.</p>
+    <div class="actions">
+      <a class="btn main" href="https://github.com/lokyx-community/lokyx-multichain-wallet/releases/latest/download/lokyx-wallet.apk">Download for Android</a>
+      <span class="btn off soon" aria-disabled="true">iPhone <span class="tag">Coming soon</span></span>
+    </div>
+    <ol class="steps">
+      <li>Download the file on your phone and open it.</li>
+      <li>If Android asks, allow installs from your browser, then tap Install.</li>
+      <li>Create a wallet and write the 24 words on paper. They are the only way back in.</li>
+    </ol>
+    <p class="small" style="margin-top:44px">Want to know when iPhone is ready? <a class="link" style="color:var(--blue)" href="https://github.com/lokyx-community/lokyx-multichain-wallet">Watch the repository on GitHub.</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>LOKYX Wallet</span>
+    <a href="https://github.com/lokyx-community/lokyx-multichain-wallet">GitHub</a>
+    <a href="https://github.com/lokyx-community/lokyx-multichain-wallet/blob/main/ROADMAP.md">Roadmap</a>
+    <a href="https://github.com/lokyx-community/lokyx-multichain-wallet/blob/main/docs/WALLET_SECURITY.md">Security notes</a>
+    <a href="https://github.com/lokyx-community/lokyx-multichain-wallet/blob/main/LICENSE">MIT licence</a>
+    <span class="r">Test networks only. Not audited.</span>
+  </div>
+</footer>
+
+</body>
+</html>
