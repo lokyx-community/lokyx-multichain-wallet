@@ -221,6 +221,15 @@ footer .r{margin-left:auto}
 .dots{display:flex;gap:9px;justify-content:center;margin-top:34px}
 .dots button{width:8px;height:8px;border-radius:4px;border:0;padding:0;background:#48484a;cursor:pointer;transition:width .5s cubic-bezier(.22,1,.36,1),background .4s}
 .dots button.on{width:26px;background:#f5f5f7}
+
+/* each coin lights the stage in its own colour */
+@property --ac{syntax:'<color>';inherits:true;initial-value:#2997ff}
+.hero{--ac:#2997ff;transition:--ac 1s ease;position:relative}
+.hero::before{content:"";position:absolute;left:50%;bottom:-10%;width:min(1100px,130vw);height:70%;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 60%,color-mix(in srgb,var(--ac) 38%,transparent),transparent 65%);pointer-events:none;z-index:0}
+.hero>*{position:relative;z-index:1}
+.cards.live img.on{box-shadow:0 40px 90px color-mix(in srgb,var(--ac) 45%,transparent),0 30px 60px rgba(0,0,0,.6)}
+.cards.live img:not(.on){filter:brightness(.8) saturate(.85)}
+.dots button.on{background:var(--ac)}
 </style>
 </head>
 <body>
@@ -464,13 +473,13 @@ footer .r{margin-left:auto}
 
   // cards: tap or arrow-key one and the rest re-fan around it; drifts on its own until you touch it
   (function(){
-    if(!cards)return;var imgs=[].slice.call(cards.querySelectorAll('img')),dots=document.getElementById('dots'),sel=2,auto=null,names=['LOKYX','Bitcoin','Ethereum','Solana','Tron'];
+    if(!cards)return;var cols=['#e8e8ed','#f7931a','#7b93ff','#9945ff','#ff3b30'],imgs=[].slice.call(cards.querySelectorAll('img')),dots=document.getElementById('dots'),sel=2,auto=null,names=['LOKYX','Bitcoin','Ethereum','Solana','Tron'];
     var btns=imgs.map(function(im,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label',names[i]||'Card '+(i+1));b.onclick=function(){go(i,true)};dots.appendChild(b);im.tabIndex=0;im.setAttribute('role','button');im.setAttribute('aria-label',(names[i]||'Card')+' card');im.onclick=function(){go(i,true)};im.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go(i,true)}else if(e.key==='ArrowRight'){go((sel+1)%5,true)}else if(e.key==='ArrowLeft'){go((sel+4)%5,true)}};return b});
     function lay(){var m=mobile.matches,c=m?21:35,st=m?11.5:17.5;
       imgs.forEach(function(im,i){var o=((i-sel+7)%5)-2,a=Math.abs(o);
         im.style.left=(c+o*st)+'%';im.style.zIndex=5-a*2+(o<0?0:1);
         im.style.setProperty('--r',(o*2.6)+'deg');im.style.setProperty('--y',(a*(m?12:15)+(a>1?8:0))+'px');
-        im.classList.toggle('on',o===0);btns[i].classList.toggle('on',o===0)})}
+        im.classList.toggle('on',o===0);if(o===0&&hero)hero.style.setProperty('--ac',cols[i]);btns[i].classList.toggle('on',o===0)})}
     function go(i,user){sel=i;lay();if(user&&auto){clearInterval(auto);auto=null}}
     setTimeout(function(){cards.classList.add('live');lay();
       if(!reduce)auto=setInterval(function(){if(scrollY<innerHeight*.6)go((sel+1)%5)},3800)},2600);
